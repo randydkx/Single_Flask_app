@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>book test</title>
+</head>
+
+<body>
+    <form method="post">
+    {# 注意一定要设置csrf_token()，否则表单无法验证 #}
+        {{author_form.csrf_token()}}
+        {{author_form.author.label}}{{author_form.author}} <br>
+        {{author_form.book.label}}{{author_form.book}} <br>
+        {{author_form.submit}} <br>
+        {% for message in get_flashed_messages() %}
+            {{message}}
+        {% endfor %}
+    </form>
+    <hr>
+    <ul>
+        {% for author in authors %}
+        <li>{{author.name}}</li>
+        <a href="{{url_for("delete_author",author_id=author.id)}}">删除</a>
+        <ul>
+            {% for book in author.books %}
+                <li>{{book.name}}</li>
+                {#删除书籍#}
+                <a href="{{url_for("delete_book",book_id=book.id)}}">删除</a>
+                {% else %}
+                <li>无</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
